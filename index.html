@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROOH – روح | مستحضرات تجميل فاخرة</title>
+  <meta name="description" content="روح – علامة تجارية فاخرة للعناية بالبشرة والجمال. اكتشفي مستحضرات التجميل الطبيعية الفاخرة.">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;600;700&family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    /* Page-specific overrides */
+    .page-section { padding: var(--space-4xl) 0; }
+    .page-section-alt { background: var(--white); }
+
+    /* About section */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3xl); align-items: center; }
+    .about-visual {
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--beige) 100%);
+      border-radius: var(--radius-2xl);
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8rem;
+      box-shadow: var(--shadow-lg);
+    }
+    .about-feature { display: flex; gap: var(--space-md); margin-bottom: var(--space-lg); }
+    .about-feature-icon {
+      width: 48px; height: 48px;
+      background: var(--gold-light); border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+    }
+
+    /* Services */
+    .service-card {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      text-align: center;
+      border: 1px solid var(--ivory);
+      transition: all var(--transition-normal);
+    }
+    .service-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--gold-light); }
+    .service-icon {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, var(--gold-light), var(--beige));
+      border-radius: var(--radius-xl);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; margin: 0 auto var(--space-lg);
+    }
+    .service-card h3 { font-size: 1.2rem; margin-bottom: var(--space-sm); }
+
+    /* Values */
+    .values-section { background: var(--dark-brown); padding: var(--space-4xl) 0; }
+    .value-card {
+      text-align: center; color: var(--cream);
+      padding: var(--space-xl);
+    }
+    .value-icon { font-size: 2.5rem; margin-bottom: var(--space-md); }
+    .value-card h3 { color: var(--gold); margin-bottom: var(--space-sm); font-size: 1.2rem; }
+    .value-card p { color: rgba(250,247,242,0.7); font-size: 0.9rem; }
+
+    /* Reviews */
+    .review-card {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      border: 1px solid var(--ivory);
+      position: relative;
+    }
+    .review-card::before {
+      content: '"'; position: absolute; top: -10px; right: 24px;
+      font-size: 5rem; color: var(--gold-light);
+      font-family: var(--font-heading); line-height: 1;
+    }
+    [dir="ltr"] .review-card::before { right: auto; left: 24px; }
+    .review-stars { margin-bottom: var(--space-sm); }
+    .review-text { color: var(--text-medium); font-size: 0.95rem; margin-bottom: var(--space-md); }
+    .reviewer { display: flex; align-items: center; gap: var(--space-md); }
+    .reviewer-name { font-weight: 700; color: var(--text-dark); }
+    .reviewer-verified { font-size: 0.78rem; color: var(--success); display: flex; align-items: center; gap: 4px; }
+
+    /* Location */
+    .map-placeholder {
+      background: linear-gradient(135deg, var(--ivory), var(--beige));
+      border-radius: var(--radius-xl);
+      height: 360px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+      border: 1px solid var(--beige);
+    }
+
+    /* Contact form */
+    .contact-info-item { display: flex; gap: var(--space-md); align-items: flex-start; margin-bottom: var(--space-lg); }
+    .contact-info-icon {
+      width: 44px; height: 44px;
+      background: var(--gold-light); border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; color: var(--gold-dark); flex-shrink: 0;
+    }
+    .contact-info-text .label { font-size: 0.8rem; color: var(--text-light); }
+    .contact-info-text .value { font-weight: 600; color: var(--text-dark); }
+
+    /* Category Preview */
+    .cat-preview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); }
+    .cat-preview-card {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl) var(--space-md);
+      text-align: center;
+      border: 1px solid var(--ivory);
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      text-decoration: none;
+    }
+    .cat-preview-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--gold-light); }
+    .cat-preview-icon { font-size: 2.5rem; margin-bottom: var(--space-sm); }
+    .cat-preview-name { font-weight: 700; color: var(--text-dark); font-size: 0.9rem; }
+    .cat-preview-name-ar { font-size: 0.78rem; color: var(--text-light); }
+
+    /* AI Chatbot */
+    .chat-bubble {
+      position: fixed; bottom: 28px; left: 28px;
+      width: 56px; height: 56px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      border-radius: var(--radius-full);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-gold);
+      z-index: 700;
+      animation: float 3s ease-in-out infinite;
+      transition: all var(--transition-normal);
+    }
+    [dir="ltr"] .chat-bubble { left: auto; right: 28px; }
+    .chat-bubble:hover { transform: scale(1.1) translateY(-3px); }
+    .chat-panel {
+      position: fixed; bottom: 96px; left: 28px;
+      width: 360px;
+      background: var(--white);
+      border-radius: var(--radius-2xl);
+      box-shadow: var(--shadow-xl);
+      border: 1px solid var(--ivory);
+      z-index: 700;
+      display: none;
+      flex-direction: column;
+      max-height: 520px;
+      overflow: hidden;
+    }
+    [dir="ltr"] .chat-panel { left: auto; right: 28px; }
+    .chat-panel.open { display: flex; }
+    .chat-header {
+      background: linear-gradient(135deg, var(--dark-brown), var(--espresso));
+      color: var(--cream);
+      padding: var(--space-md) var(--space-lg);
+      display: flex; align-items: center; gap: var(--space-md);
+    }
+    .chat-avatar { width: 38px; height: 38px; background: var(--gold); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .chat-messages { flex: 1; overflow-y: auto; padding: var(--space-md); display: flex; flex-direction: column; gap: var(--space-sm); }
+    .chat-msg { max-width: 80%; }
+    .chat-msg.bot { align-self: flex-start; }
+    .chat-msg.user { align-self: flex-end; }
+    .chat-bubble-msg {
+      padding: 10px 14px;
+      border-radius: var(--radius-lg);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .chat-msg.bot .chat-bubble-msg { background: var(--ivory); color: var(--text-dark); border-bottom-right-radius: var(--radius-sm); }
+    [dir="ltr"] .chat-msg.bot .chat-bubble-msg { border-bottom-right-radius: var(--radius-lg); border-bottom-left-radius: var(--radius-sm); }
+    .chat-msg.user .chat-bubble-msg { background: var(--gold); color: var(--white); border-bottom-left-radius: var(--radius-sm); }
+    [dir="ltr"] .chat-msg.user .chat-bubble-msg { border-bottom-left-radius: var(--radius-lg); border-bottom-right-radius: var(--radius-sm); }
+    .chat-input-area { padding: var(--space-md); border-top: 1px solid var(--ivory); display: flex; gap: var(--space-sm); }
+    .chat-input-area input { flex: 1; }
+    .chat-quick-replies { padding: 0 var(--space-md) var(--space-sm); display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+    .quick-reply {
+      font-size: 0.8rem; padding: 5px 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--gold);
+      color: var(--gold-dark); cursor: pointer;
+      background: var(--white);
+      transition: all var(--transition-fast);
+    }
+    .quick-reply:hover { background: var(--gold); color: var(--white); }
+
+    /* Complaints */
+    .complaint-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); margin-bottom: var(--space-xl); }
+    .complaint-option {
+      background: var(--white); border-radius: var(--radius-xl); padding: var(--space-xl);
+      text-align: center; cursor: pointer; border: 2px solid var(--ivory);
+      text-decoration: none; color: inherit;
+      transition: all var(--transition-normal);
+    }
+    .complaint-option:hover { border-color: var(--gold); transform: translateY(-3px); }
+    .complaint-option .icon { font-size: 2rem; margin-bottom: var(--space-sm); }
+
+    /* Mobile menu */
+    .mobile-nav {
+      position: fixed; top: 0; right: -100%; bottom: 0;
+      width: 280px;
+      background: var(--white);
+      z-index: 950;
+      padding: var(--space-xl) var(--space-lg);
+      transition: right var(--transition-normal);
+      box-shadow: var(--shadow-xl);
+      overflow-y: auto;
+    }
+    [dir="ltr"] .mobile-nav { right: auto; left: -100%; }
+    .mobile-nav.open { right: 0; }
+    [dir="ltr"] .mobile-nav.open { left: 0; right: auto; }
+    .mobile-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 940; display: none; }
+    .mobile-overlay.open { display: block; }
+
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-visual { display: none; }
+      .cat-preview-grid { grid-template-columns: repeat(2, 1fr); }
+      .complaint-options { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .cat-preview-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+
+  <!-- Mobile Nav -->
+  <nav class="mobile-nav" id="mobileNav">
+    <div class="flex-between mb-3">
+      <div class="navbar-logo" style="gap:8px">
+        <div class="logo-icon">🌸</div>
+        <div><div class="logo-text" style="font-family:var(--font-heading);font-size:1.2rem;font-weight:700">ROOH</div></div>
+      </div>
+      <button onclick="closeMobileMenu()" style="font-size:1.5rem;color:var(--text-light)">✕</button>
+    </div>
+    <div class="divider-h"></div>
+    <div style="display:flex;flex-direction:column;gap:4px;margin-top:var(--space-md)">
+      <a href="#home" class="nav-link" onclick="closeMobileMenu()"><i class="fas fa-home"></i> الرئيسية</a>
+      <a href="#about" class="nav-link" onclick="closeMobileMenu()"><i class="fas fa-info-circle"></i> من نحن</a>
+      <a href="#products" class="nav-link" onclick="closeMobileMenu()"><i class="fas fa-box"></i> منتجاتنا</a>
+      <a href="#services" class="nav-link" onclick="closeMobileMenu()"><i class="fas fa-star"></i> خدماتنا</a>
+      <a href="#reviews" class="nav-link" onclick="closeMobileMenu()"><i class="fas fa-comments"></i> آراء العملاء</a>
+      <a href="#contact" class="nav-link" onclick="closeMobileMenu()"><i class="fas fa-phone"></i> تواصل معنا</a>
+      <div class="divider-h"></div>
+      <a href="store.html" class="btn btn-primary w-full" onclick="closeMobileMenu()">🛒 سوق روح</a>
+    </div>
+  </nav>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="mainNav">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="#home" class="navbar-logo">
+          <div class="logo-icon">🌸</div>
+          <div class="logo-text">
+            <div class="en">ROOH</div>
+            <div class="ar">روح</div>
+          </div>
+        </a>
+        <div class="navbar-nav">
+          <a href="#home" class="nav-link active" data-en="Home" data-ar="الرئيسية">الرئيسية</a>
+          <a href="#about" class="nav-link" data-en="About" data-ar="من نحن">من نحن</a>
+          <a href="#products" class="nav-link" data-en="Products" data-ar="منتجاتنا">منتجاتنا</a>
+          <a href="#services" class="nav-link" data-en="Services" data-ar="خدماتنا">خدماتنا</a>
+          <a href="#reviews" class="nav-link" data-en="Reviews" data-ar="آراء العملاء">آراء العملاء</a>
+          <a href="#contact" class="nav-link" data-en="Contact" data-ar="تواصل معنا">تواصل معنا</a>
+        </div>
+        <div class="navbar-actions">
+          <button class="lang-btn" id="langToggle" onclick="toggleLanguage()">EN</button>
+          <a href="store.html" class="btn btn-primary btn-sm"><i class="fas fa-shopping-bag"></i> <span data-en="Shop Now" data-ar="سوق روح">سوق روح</span></a>
+          <button class="mobile-menu-btn" onclick="openMobileMenu()" id="mobileMenuBtn" aria-label="Menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-content animate-slideUp">
+        <div class="hero-tag">
+          <span>✨</span>
+          <span data-en="Premium Cosmetics Brand" data-ar="علامة تجارية فاخرة للتجميل">علامة تجارية فاخرة للتجميل</span>
+        </div>
+        <h1 data-en="Your Beauty, Your Identity" data-ar="جمالك... هويتك">جمالك... هويتك</h1>
+        <p data-en="ROOH is a luxury cosmetics brand dedicated to enhancing your natural beauty with premium ingredients and elegant formulations." data-ar="روح علامة تجارية فاخرة لمستحضرات التجميل، نُكرّس جهودنا لإبراز جمالك الطبيعي بأفضل المكونات وأرقى التركيبات.">
+          روح علامة تجارية فاخرة لمستحضرات التجميل، نُكرّس جهودنا لإبراز جمالك الطبيعي بأفضل المكونات وأرقى التركيبات.
+        </p>
+        <div class="hero-actions">
+          <a href="store.html" class="btn btn-primary btn-lg">
+            <i class="fas fa-shopping-bag"></i>
+            <span data-en="Shop Now" data-ar="تسوقي الآن">تسوقي الآن</span>
+          </a>
+          <a href="#about" class="btn btn-secondary btn-lg">
+            <span data-en="Discover ROOH" data-ar="اكتشفي روح">اكتشفي روح</span>
+            <i class="fas fa-arrow-left"></i>
+          </a>
+        </div>
+        <!-- Stats -->
+        <div style="display:flex;gap:var(--space-2xl);margin-top:var(--space-2xl);flex-wrap:wrap" id="heroStats">
+          <div><div class="font-bold" style="font-size:1.6rem;color:var(--gold-dark)" id="stat-products">0</div><div style="font-size:0.85rem;color:var(--text-light)" data-en="Products" data-ar="منتج">منتج</div></div>
+          <div><div class="font-bold" style="font-size:1.6rem;color:var(--gold-dark)" id="stat-customers">0</div><div style="font-size:0.85rem;color:var(--text-light)" data-en="Happy Customers" data-ar="عميلة سعيدة">عميلة سعيدة</div></div>
+          <div><div class="font-bold" style="font-size:1.6rem;color:var(--gold-dark)">٥★</div><div style="font-size:0.85rem;color:var(--text-light)" data-en="Average Rating" data-ar="متوسط التقييم">متوسط التقييم</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-circle">🌸</div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES PREVIEW -->
+  <section class="page-section page-section-alt" id="products">
+    <div class="container">
+      <div class="section-title">
+        <h2 class="text-shimmer" data-en="Our Products" data-ar="منتجاتنا">منتجاتنا</h2>
+        <div class="divider"></div>
+        <p class="subtitle" data-en="Explore our carefully curated range of luxury cosmetics" data-ar="استكشفي مجموعتنا المختارة بعناية من مستحضرات التجميل الفاخرة">استكشفي مجموعتنا المختارة بعناية من مستحضرات التجميل الفاخرة</p>
+      </div>
+      <div class="cat-preview-grid" id="catPreviewGrid">
+        <!-- Injected by JS -->
+      </div>
+      <div class="text-center mt-3">
+        <a href="store.html" class="btn btn-primary btn-lg">
+          <i class="fas fa-store"></i>
+          <span data-en="Visit Souq ROOH" data-ar="زوري سوق روح">زوري سوق روح</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT US -->
+  <section class="page-section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-visual animate-float">🌸</div>
+        <div>
+          <div class="section-title" style="text-align:right">
+            <span class="badge badge-gold mb-2" data-en="Who We Are" data-ar="من نحن">من نحن</span>
+            <h2 data-en="About ROOH" data-ar="عن روح">عن روح</h2>
+            <div class="divider" style="margin:var(--space-md) 0"></div>
+          </div>
+          <p style="margin-bottom:var(--space-lg)" data-en="ROOH is a luxury Egyptian cosmetics brand founded with a passion for beauty, authenticity, and excellence. We create premium skincare, haircare, and beauty products using the finest natural ingredients." data-ar="روح علامة تجارية مصرية فاخرة لمستحضرات التجميل، تأسست بشغف نحو الجمال والأصالة والتميز. نصنع منتجات متميزة للعناية بالبشرة والشعر والجمال باستخدام أفضل المكونات الطبيعية.">
+            روح علامة تجارية مصرية فاخرة لمستحضرات التجميل، تأسست بشغف نحو الجمال والأصالة والتميز. نصنع منتجات متميزة للعناية بالبشرة والشعر والجمال باستخدام أفضل المكونات الطبيعية.
+          </p>
+          <div class="about-feature">
+            <div class="about-feature-icon">🌿</div>
+            <div>
+              <h4 data-en="Natural Ingredients" data-ar="مكونات طبيعية">مكونات طبيعية</h4>
+              <p style="font-size:0.9rem" data-en="We source only the finest natural ingredients from trusted suppliers worldwide." data-ar="نختار أجود المكونات الطبيعية من موردين موثوقين حول العالم.">نختار أجود المكونات الطبيعية من موردين موثوقين حول العالم.</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon">🔬</div>
+            <div>
+              <h4 data-en="Scientific Formulation" data-ar="تركيبات علمية">تركيبات علمية</h4>
+              <p style="font-size:0.9rem" data-en="Our products are developed by expert chemists and tested for safety and efficacy." data-ar="تُطوَّر منتجاتنا من قِبل خبراء الكيمياء وتُختبر للسلامة والفعالية.">تُطوَّر منتجاتنا من قِبل خبراء الكيمياء وتُختبر للسلامة والفعالية.</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon">💎</div>
+            <div>
+              <h4 data-en="Luxury Experience" data-ar="تجربة فاخرة">تجربة فاخرة</h4>
+              <p style="font-size:0.9rem" data-en="From the formula to the packaging, every detail reflects elegance and luxury." data-ar="من التركيبة إلى التغليف، كل تفصيلة تعكس الأناقة والرفاهية.">من التركيبة إلى التغليف، كل تفصيلة تعكس الأناقة والرفاهية.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION & VISION -->
+  <div class="values-section">
+    <div class="container">
+      <div class="section-title" style="margin-bottom:var(--space-2xl)">
+        <h2 style="color:var(--cream)" data-en="Our Mission & Vision" data-ar="رسالتنا ورؤيتنا">رسالتنا ورؤيتنا</h2>
+        <div class="divider"></div>
+      </div>
+      <div class="grid-4">
+        <div class="value-card">
+          <div class="value-icon">🎯</div>
+          <h3 data-en="Our Mission" data-ar="رسالتنا">رسالتنا</h3>
+          <p data-en="To empower every woman with luxurious, safe, and effective cosmetics that celebrate her natural beauty." data-ar="تمكين كل امرأة من خلال مستحضرات تجميل فاخرة وآمنة وفعّالة تُبرز جمالها الطبيعي.">تمكين كل امرأة من خلال مستحضرات تجميل فاخرة وآمنة وفعّالة تُبرز جمالها الطبيعي.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🌟</div>
+          <h3 data-en="Our Vision" data-ar="رؤيتنا">رؤيتنا</h3>
+          <p data-en="To become the leading luxury cosmetics brand in Egypt and the Arab world." data-ar="أن نصبح العلامة التجارية الفاخرة الرائدة لمستحضرات التجميل في مصر والعالم العربي.">أن نصبح العلامة التجارية الفاخرة الرائدة لمستحضرات التجميل في مصر والعالم العربي.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">💚</div>
+          <h3 data-en="Our Values" data-ar="قيمنا">قيمنا</h3>
+          <p data-en="Authenticity, quality, sustainability, and customer satisfaction are at the heart of everything we do." data-ar="الأصالة والجودة والاستدامة ورضا العملاء هي جوهر كل ما نفعله.">الأصالة والجودة والاستدامة ورضا العملاء هي جوهر كل ما نفعله.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🤝</div>
+          <h3 data-en="Our Promise" data-ar="وعدنا">وعدنا</h3>
+          <p data-en="We promise transparency in ingredients, reliability in quality, and excellence in service." data-ar="نعدك بالشفافية في المكونات والموثوقية في الجودة والتميز في الخدمة.">نعدك بالشفافية في المكونات والموثوقية في الجودة والتميز في الخدمة.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="page-section page-section-alt" id="services">
+    <div class="container">
+      <div class="section-title">
+        <h2 data-en="Our Services" data-ar="خدماتنا">خدماتنا</h2>
+        <div class="divider"></div>
+        <p class="subtitle" data-en="We offer a complete beauty experience" data-ar="نقدم تجربة جمال متكاملة">نقدم تجربة جمال متكاملة</p>
+      </div>
+      <div class="grid-3">
+        <div class="service-card">
+          <div class="service-icon">🛍️</div>
+          <h3 data-en="Online Store" data-ar="متجر إلكتروني">متجر إلكتروني</h3>
+          <p data-en="Shop our full range of luxury cosmetics from the comfort of your home with fast delivery across Egypt." data-ar="تسوقي من مجموعتنا الكاملة من مستحضرات التجميل الفاخرة من منزلك مع توصيل سريع لجميع أنحاء مصر.">تسوقي من مجموعتنا الكاملة من مستحضرات التجميل الفاخرة من منزلك مع توصيل سريع لجميع أنحاء مصر.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🎨</div>
+          <h3 data-en="Custom Products" data-ar="منتجات مخصصة">منتجات مخصصة</h3>
+          <p data-en="Create your own personalized cosmetic product by choosing your preferred ingredients, fragrance, and packaging." data-ar="صمّمي منتجك التجميلي الخاص بك من خلال اختيار المكونات والعطر والتغليف المفضل لديك.">صمّمي منتجك التجميلي الخاص بك من خلال اختيار المكونات والعطر والتغليف المفضل لديك.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">👩‍🔬</div>
+          <h3 data-en="Beauty Consultation" data-ar="استشارة جمال">استشارة جمال</h3>
+          <p data-en="Get personalized beauty advice from our expert team to find the perfect products for your skin type." data-ar="احصلي على نصائح جمالية شخصية من فريقنا المتخصص للعثور على المنتجات المثالية لنوع بشرتك.">احصلي على نصائح جمالية شخصية من فريقنا المتخصص للعثور على المنتجات المثالية لنوع بشرتك.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🚚</div>
+          <h3 data-en="Fast Delivery" data-ar="توصيل سريع">توصيل سريع</h3>
+          <p data-en="We deliver to all Egyptian governorates with fast, reliable shipping and real-time tracking." data-ar="نوصل إلى جميع محافظات مصر بشحن سريع وموثوق مع تتبع في الوقت الفعلي.">نوصل إلى جميع محافظات مصر بشحن سريع وموثوق مع تتبع في الوقت الفعلي.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🎁</div>
+          <h3 data-en="Gift Packaging" data-ar="تغليف هدايا">تغليف هدايا</h3>
+          <p data-en="Make your gift special with our premium gift packaging service available for all orders." data-ar="اجعلي هديتك مميزة مع خدمة التغليف الفاخرة للهدايا المتاحة لجميع الطلبات.">اجعلي هديتك مميزة مع خدمة التغليف الفاخرة للهدايا المتاحة لجميع الطلبات.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">💬</div>
+          <h3 data-en="24/7 Support" data-ar="دعم على مدار الساعة">دعم على مدار الساعة</h3>
+          <p data-en="Our AI-powered customer support is available around the clock to answer your questions." data-ar="خدمة العملاء المدعومة بالذكاء الاصطناعي متاحة على مدار الساعة للإجابة على استفساراتك.">خدمة العملاء المدعومة بالذكاء الاصطناعي متاحة على مدار الساعة للإجابة على استفساراتك.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="page-section" id="reviews">
+    <div class="container">
+      <div class="section-title">
+        <h2 data-en="Customer Reviews" data-ar="آراء عملائنا">آراء عملائنا</h2>
+        <div class="divider"></div>
+        <p class="subtitle" data-en="What our customers say about ROOH" data-ar="ماذا تقول عملاؤنا عن روح">ماذا تقول عملاؤنا عن روح</p>
+      </div>
+      <div class="grid-3" id="reviewsGrid">
+        <!-- Injected by JS -->
+      </div>
+      <div class="text-center mt-3">
+        <a href="store.html#reviews" class="btn btn-secondary">
+          <span data-en="Write a Review" data-ar="اكتب تقييمك">اكتب تقييمك</span>
+          <i class="fas fa-star"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCATION -->
+  <section class="page-section page-section-alt">
+    <div class="container">
+      <div class="section-title">
+        <h2 data-en="Our Location" data-ar="موقعنا">موقعنا</h2>
+        <div class="divider"></div>
+      </div>
+      <div class="grid-2" style="align-items:center">
+        <div class="map-placeholder">📍</div>
+        <div>
+          <h3 data-en="Find Us" data-ar="اعثري علينا">اعثري علينا</h3>
+          <p style="margin-bottom:var(--space-xl)" data-en="ROOH headquarters is located in Cairo, Egypt. Our products are available online with delivery across all Egyptian governorates." data-ar="يقع مقر روح الرئيسي في القاهرة، مصر. منتجاتنا متاحة إلكترونياً مع توصيل لجميع محافظات مصر.">يقع مقر روح الرئيسي في القاهرة، مصر. منتجاتنا متاحة إلكترونياً مع توصيل لجميع محافظات مصر.</p>
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="contact-info-text">
+              <div class="label" data-en="Address" data-ar="العنوان">العنوان</div>
+              <div class="value" data-en="Cairo, Egypt" data-ar="القاهرة، مصر">القاهرة، مصر</div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="fas fa-phone"></i></div>
+            <div class="contact-info-text">
+              <div class="label" data-en="Phone / WhatsApp" data-ar="الهاتف / واتساب">الهاتف / واتساب</div>
+              <div class="value"><a href="tel:01227208589" style="color:inherit">01227208589</a></div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="fas fa-clock"></i></div>
+            <div class="contact-info-text">
+              <div class="label" data-en="Working Hours" data-ar="ساعات العمل">ساعات العمل</div>
+              <div class="value" data-en="Online: 24/7" data-ar="إلكتروني: 24/7">إلكتروني: 24/7</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:var(--space-md);flex-wrap:wrap;margin-top:var(--space-md)">
+            <a href="tel:01227208589" class="btn btn-dark"><i class="fas fa-phone"></i> <span data-en="Call Us" data-ar="اتصل بنا">اتصل بنا</span></a>
+            <a href="https://wa.me/201227208589" target="_blank" class="btn btn-success"><i class="fab fa-whatsapp"></i> واتساب</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="page-section" id="contact">
+    <div class="container">
+      <div class="section-title">
+        <h2 data-en="Contact Us" data-ar="تواصل معنا">تواصل معنا</h2>
+        <div class="divider"></div>
+        <p class="subtitle" data-en="We'd love to hear from you" data-ar="يسعدنا سماعك">يسعدنا سماعك</p>
+      </div>
+      <div class="grid-2" style="gap:var(--space-2xl);align-items:start">
+        <div>
+          <div class="card">
+            <div class="card-body">
+              <h3 class="mb-2" data-en="Send a Message" data-ar="أرسل رسالة">أرسل رسالة</h3>
+              <form id="contactForm" onsubmit="submitContact(event)">
+                <div class="form-group">
+                  <label class="form-label" data-en="Full Name" data-ar="الاسم الكامل">الاسم الكامل</label>
+                  <input type="text" class="form-control" placeholder="اسمك الكريم" required id="cName">
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" data-en="Phone" data-ar="الهاتف">الهاتف</label>
+                    <input type="tel" class="form-control" placeholder="01xxxxxxxxx" id="cPhone">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" data-en="Email" data-ar="البريد الإلكتروني">البريد الإلكتروني</label>
+                    <input type="email" class="form-control" placeholder="email@example.com" id="cEmail">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" data-en="Subject" data-ar="الموضوع">الموضوع</label>
+                  <select class="form-control" id="cSubject">
+                    <option value="" data-en="Select subject" data-ar="اختر الموضوع">اختر الموضوع</option>
+                    <option value="product">استفسار عن منتج</option>
+                    <option value="order">متابعة طلب</option>
+                    <option value="complaint">شكوى</option>
+                    <option value="suggestion">اقتراح</option>
+                    <option value="other">أخرى</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" data-en="Message" data-ar="الرسالة">الرسالة</label>
+                  <textarea class="form-control" rows="4" placeholder="اكتب رسالتك هنا..." id="cMessage" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-full">
+                  <i class="fas fa-paper-plane"></i>
+                  <span data-en="Send Message" data-ar="إرسال الرسالة">إرسال الرسالة</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card mb-2">
+            <div class="card-body">
+              <h3 class="mb-2" data-en="Quick Contact" data-ar="تواصل سريع">تواصل سريع</h3>
+              <div class="contact-info-item">
+                <div class="contact-info-icon"><i class="fab fa-whatsapp" style="color:#25D366"></i></div>
+                <div class="contact-info-text">
+                  <div class="label">WhatsApp</div>
+                  <a href="https://wa.me/201227208589" target="_blank" class="value" style="color:var(--gold-dark)">01227208589</a>
+                </div>
+              </div>
+              <div class="contact-info-item">
+                <div class="contact-info-icon"><i class="fas fa-phone"></i></div>
+                <div class="contact-info-text">
+                  <div class="label" data-en="Phone" data-ar="هاتف">هاتف</div>
+                  <a href="tel:01227208589" class="value" style="color:var(--gold-dark)">01227208589</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Complaints -->
+          <div class="card">
+            <div class="card-body">
+              <h3 class="mb-2" data-en="Complaints & Support" data-ar="الشكاوى والدعم">الشكاوى والدعم</h3>
+              <p style="font-size:0.9rem;margin-bottom:var(--space-md)" data-en="Have a complaint or need support?" data-ar="لديك شكوى أو تحتاج دعماً؟">لديك شكوى أو تحتاج دعماً؟</p>
+              <div class="complaint-options" style="grid-template-columns:1fr 1fr;gap:var(--space-sm)">
+                <a href="tel:01227208589" class="complaint-option" style="padding:var(--space-md)">
+                  <div class="icon">📞</div>
+                  <div style="font-size:0.8rem;font-weight:600" data-en="Call" data-ar="اتصل">اتصل</div>
+                </a>
+                <a href="https://wa.me/201227208589" target="_blank" class="complaint-option" style="padding:var(--space-md)">
+                  <div class="icon">💬</div>
+                  <div style="font-size:0.8rem;font-weight:600" data-en="WhatsApp" data-ar="واتساب">واتساب</div>
+                </a>
+              </div>
+              <button class="btn btn-secondary w-full mt-2" onclick="openComplaintForm()">
+                <i class="fas fa-file-alt"></i>
+                <span data-en="File a Complaint" data-ar="تقديم شكوى">تقديم شكوى</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">ROOH</div>
+          <p data-en="A luxury Egyptian cosmetics brand dedicated to enhancing your natural beauty with premium ingredients and elegant formulations." data-ar="علامة تجارية مصرية فاخرة لمستحضرات التجميل، مُكرَّسة لإبراز جمالك الطبيعي بأفضل المكونات وأرقى التركيبات.">علامة تجارية مصرية فاخرة لمستحضرات التجميل، مُكرَّسة لإبراز جمالك الطبيعي بأفضل المكونات وأرقى التركيبات.</p>
+          <div class="social-links mt-2">
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+            <a href="https://wa.me/201227208589" class="social-link"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4 data-en="Quick Links" data-ar="روابط سريعة">روابط سريعة</h4>
+          <ul>
+            <li><a href="#home" data-en="Home" data-ar="الرئيسية">الرئيسية</a></li>
+            <li><a href="#about" data-en="About Us" data-ar="من نحن">من نحن</a></li>
+            <li><a href="#products" data-en="Products" data-ar="منتجاتنا">منتجاتنا</a></li>
+            <li><a href="#services" data-en="Services" data-ar="خدماتنا">خدماتنا</a></li>
+            <li><a href="#contact" data-en="Contact" data-ar="تواصل معنا">تواصل معنا</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-en="Our Store" data-ar="متجرنا">متجرنا</h4>
+          <ul>
+            <li><a href="store.html" data-en="Souq ROOH" data-ar="سوق روح">سوق روح</a></li>
+            <li><a href="store.html#skincare" data-en="Skincare" data-ar="العناية بالبشرة">العناية بالبشرة</a></li>
+            <li><a href="store.html#haircare" data-en="Haircare" data-ar="العناية بالشعر">العناية بالشعر</a></li>
+            <li><a href="store.html#perfumes" data-en="Perfumes" data-ar="العطور">العطور</a></li>
+            <li><a href="store.html#customize" data-en="Create Your Product" data-ar="صمّمي منتجك">صمّمي منتجك</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-en="Customer Service" data-ar="خدمة العملاء">خدمة العملاء</h4>
+          <ul>
+            <li><a href="store.html#track" data-en="Track Order" data-ar="تتبع الطلب">تتبع الطلب</a></li>
+            <li><a href="#contact" data-en="Complaints" data-ar="الشكاوى">الشكاوى</a></li>
+            <li><a href="#reviews" data-en="Reviews" data-ar="التقييمات">التقييمات</a></li>
+            <li><a href="tel:01227208589">01227208589</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span data-en="© 2026 ROOH. All rights reserved." data-ar="© 2026 روح. جميع الحقوق محفوظة.">© 2026 روح. جميع الحقوق محفوظة.</span>
+        <a href="admin.html" style="color:rgba(250,247,242,0.3);font-size:0.8rem" data-en="Admin" data-ar="لوحة التحكم">لوحة التحكم</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AI Chatbot -->
+  <div class="chat-bubble" id="chatBubble" onclick="toggleChat()" title="مساعد روح الذكي">🌸</div>
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-header">
+      <div class="chat-avatar">🌸</div>
+      <div>
+        <div style="font-weight:700;font-size:0.95rem">مساعدة روح</div>
+        <div style="font-size:0.75rem;opacity:0.7">● متاحة الآن</div>
+      </div>
+      <button onclick="toggleChat()" style="margin-right:auto;color:rgba(250,247,242,0.7);font-size:1.2rem;background:none;border:none;cursor:pointer">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg bot">
+        <div class="chat-bubble-msg">أهلاً بكِ في روح! 🌸 أنا مساعدتك الذكية. كيف يمكنني مساعدتك اليوم؟</div>
+      </div>
+    </div>
+    <div class="chat-quick-replies" id="quickReplies">
+      <span class="quick-reply" onclick="sendQuickReply('منتجاتكم')">منتجاتنا</span>
+      <span class="quick-reply" onclick="sendQuickReply('التوصيل')">التوصيل</span>
+      <span class="quick-reply" onclick="sendQuickReply('طريقة الدفع')">طرق الدفع</span>
+      <span class="quick-reply" onclick="sendQuickReply('التخصيص')">تخصيص منتج</span>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" class="form-control" id="chatInput" placeholder="اكتبي رسالتك..." onkeydown="if(event.key==='Enter') sendChat()">
+      <button class="btn btn-primary btn-sm" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+  <!-- Complaint Form Modal -->
+  <div class="modal-overlay d-none" id="complaintModal">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h3><i class="fas fa-file-alt"></i> تقديم شكوى</h3>
+        <span class="modal-close" onclick="closeComplaintForm()">✕</span>
+      </div>
+      <div class="modal-body">
+        <form id="complaintForm" onsubmit="submitComplaint(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">الاسم الكامل *</label>
+              <input type="text" class="form-control" id="compName" required placeholder="اسمك الكريم">
+            </div>
+            <div class="form-group">
+              <label class="form-label">رقم الهاتف *</label>
+              <input type="tel" class="form-control" id="compPhone" required placeholder="01xxxxxxxxx">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">رقم الطلب (إن وجد)</label>
+            <input type="text" class="form-control" id="compOrder" placeholder="مثال: ORD-001234">
+          </div>
+          <div class="form-group">
+            <label class="form-label">نوع الشكوى *</label>
+            <select class="form-control" id="compCategory" required>
+              <option value="">اختر نوع الشكوى</option>
+              <option value="product_quality">جودة المنتج</option>
+              <option value="delivery">مشكلة في التوصيل</option>
+              <option value="wrong_product">منتج خاطئ</option>
+              <option value="damaged">منتج تالف</option>
+              <option value="payment">مشكلة في الدفع</option>
+              <option value="service">خدمة العملاء</option>
+              <option value="other">أخرى</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">تفاصيل الشكوى *</label>
+            <textarea class="form-control" id="compDetails" rows="4" required placeholder="اشرحي مشكلتك بالتفصيل..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary w-full">
+            <i class="fas fa-paper-plane"></i> إرسال الشكوى
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/db.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
+

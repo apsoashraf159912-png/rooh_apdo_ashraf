@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سوق روح – Souq ROOH | متجر مستحضرات التجميل الفاخرة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;600;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/store.css">
+</head>
+<body>
+<!-- Toast -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Cart Overlay & Sidebar -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3><i class="fas fa-shopping-cart"></i> سلة التسوق</h3>
+    <button onclick="closeCart()" style="font-size:1.4rem;color:var(--text-light)">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"><p class="text-center text-light p-3">سلتك فارغة 🛒</p></div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span class="cart-total-label">الإجمالي:</span>
+      <span class="cart-total-value" id="cartTotalDisplay">0 ج.م</span>
+    </div>
+    <div style="display:flex;gap:var(--space-sm)">
+      <button class="btn btn-light w-full" onclick="closeCart()">متابعة التسوق</button>
+      <button class="btn btn-primary w-full" onclick="goToCheckout()" id="checkoutBtn">إتمام الشراء</button>
+    </div>
+  </div>
+</div>
+
+<!-- Product Detail Modal -->
+<div class="modal-overlay d-none" id="productModal">
+  <div class="modal modal-xl" id="productModalContent"></div>
+</div>
+
+<!-- Auth Modal -->
+<div class="modal-overlay d-none" id="authModal">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <h3 id="authTitle">تسجيل الدخول</h3>
+      <span class="modal-close" onclick="closeAuth()">✕</span>
+    </div>
+    <div class="modal-body" id="authBody"></div>
+  </div>
+</div>
+
+<!-- Review Modal -->
+<div class="modal-overlay d-none" id="reviewModal">
+  <div class="modal modal-sm">
+    <div class="modal-header"><h3>كتابة تقييم</h3><span class="modal-close" onclick="document.getElementById('reviewModal').classList.add('d-none')">✕</span></div>
+    <div class="modal-body">
+      <form onsubmit="submitReview(event)">
+        <div class="form-group"><label class="form-label">الاسم</label><input class="form-control" id="revName" required></div>
+        <div class="form-group"><label class="form-label">التقييم</label>
+          <div class="stars" style="font-size:2rem;cursor:pointer" id="starSelector">
+            <span onclick="setRating(1)">☆</span><span onclick="setRating(2)">☆</span><span onclick="setRating(3)">☆</span><span onclick="setRating(4)">☆</span><span onclick="setRating(5)">☆</span>
+          </div></div>
+        <div class="form-group"><label class="form-label">عنوان التقييم</label><input class="form-control" id="revTitle"></div>
+        <div class="form-group"><label class="form-label">التقييم</label><textarea class="form-control" id="revBody" rows="3" required></textarea></div>
+        <button class="btn btn-primary w-full" type="submit">إرسال التقييم</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar" id="mainNav">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">
+        <div class="logo-icon">🌸</div>
+        <div class="logo-text"><div class="en">ROOH</div><div class="ar">سوق روح</div></div>
+      </a>
+      <!-- Category quick nav -->
+      <div class="navbar-nav" id="navCats" style="display:flex;gap:0;overflow-x:auto"></div>
+      <div class="navbar-actions">
+        <div style="position:relative">
+          <input type="text" id="searchInput" placeholder="ابحثي عن منتج..." class="form-control" style="width:200px;border-radius:var(--radius-full);padding:8px 16px 8px 36px;font-size:0.85rem" oninput="handleSearch(this.value)">
+          <i class="fas fa-search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-light);font-size:0.9rem"></i>
+        </div>
+        <div class="cart-btn" onclick="openCart()">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-badge" id="cartCount">0</span>
+        </div>
+        <button class="btn btn-sm btn-light" onclick="openAuth()" id="authBtn">
+          <i class="fas fa-user"></i> <span id="authBtnText">تسجيل الدخول</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Store Hero -->
+<div class="store-hero" id="storeHero">
+  <h1>سوق روح 🌸</h1>
+  <p>مستحضرات تجميل فاخرة لكل لحظة جمال</p>
+</div>
+
+<!-- Category Nav -->
+<div class="category-nav">
+  <div class="container">
+    <div class="category-nav-inner" id="catNav">
+      <a class="cat-nav-item active" href="#" onclick="filterCategory('all',this);return false">
+        <span class="cat-icon">🌟</span> الكل
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Main Store -->
+<div class="store-layout">
+  <div class="container">
+    <!-- Tabs: Shop / Customize / Reviews / Track -->
+    <div class="admin-tabs" style="margin-top:var(--space-lg)">
+      <div class="admin-tab active" onclick="showStoreTab('shop',this)">🛍️ التسوق</div>
+      <div class="admin-tab" onclick="showStoreTab('customize',this)">🎨 صمّمي منتجك</div>
+      <div class="admin-tab" onclick="showStoreTab('reviews',this)">⭐ التقييمات</div>
+      <div class="admin-tab" onclick="showStoreTab('track',this)">📦 تتبع الطلب</div>
+      <div class="admin-tab" onclick="showStoreTab('complaints',this)">📣 الشكاوى</div>
+    </div>
+
+    <!-- SHOP TAB -->
+    <div id="tab-shop">
+      <div class="store-content">
+        <!-- Filters -->
+        <aside class="filters-sidebar">
+          <div class="filter-card">
+            <div class="filter-title">الفئات</div>
+            <div id="filterCats"></div>
+          </div>
+          <div class="filter-card">
+            <div class="filter-title">نطاق السعر</div>
+            <div class="price-range">
+              <input type="number" class="form-control" id="minPrice" placeholder="من" min="0" oninput="applyFilters()">
+              <span>–</span>
+              <input type="number" class="form-control" id="maxPrice" placeholder="إلى" min="0" oninput="applyFilters()">
+            </div>
+          </div>
+          <div class="filter-card">
+            <div class="filter-title">التقييم</div>
+            <div id="filterRating">
+              <label class="filter-option"><input type="radio" name="rating" value="" onchange="applyFilters()" checked> الكل</label>
+              <label class="filter-option"><input type="radio" name="rating" value="4" onchange="applyFilters()"> ⭐⭐⭐⭐ فأكثر</label>
+              <label class="filter-option"><input type="radio" name="rating" value="3" onchange="applyFilters()"> ⭐⭐⭐ فأكثر</label>
+            </div>
+          </div>
+          <div class="filter-card">
+            <div class="filter-title">الحالة</div>
+            <label class="filter-option"><input type="checkbox" id="filterNew" onchange="applyFilters()"> جديد</label>
+            <label class="filter-option"><input type="checkbox" id="filterSale" onchange="applyFilters()"> تخفيض</label>
+            <label class="filter-option"><input type="checkbox" id="filterBest" onchange="applyFilters()"> الأكثر مبيعاً</label>
+            <label class="filter-option"><input type="checkbox" id="filterStock" onchange="applyFilters()"> متوفر فقط</label>
+          </div>
+          <button class="btn btn-light w-full btn-sm mt-1" onclick="clearFilters()">مسح الفلاتر</button>
+        </aside>
+
+        <!-- Products Area -->
+        <div class="products-area">
+          <div class="products-toolbar">
+            <div class="products-count" id="productsCount">جاري التحميل...</div>
+            <div style="display:flex;align-items:center;gap:var(--space-md)">
+              <select class="form-control" style="width:160px;padding:8px 12px" id="sortSelect" onchange="applyFilters()">
+                <option value="default">الترتيب الافتراضي</option>
+                <option value="price_asc">السعر: من الأقل</option>
+                <option value="price_desc">السعر: من الأعلى</option>
+                <option value="rating">الأعلى تقييماً</option>
+                <option value="newest">الأحدث</option>
+                <option value="bestseller">الأكثر مبيعاً</option>
+              </select>
+              <div class="view-toggle">
+                <button class="view-btn active" id="gridViewBtn" onclick="setView('grid',this)"><i class="fas fa-th"></i></button>
+                <button class="view-btn" id="listViewBtn" onclick="setView('list',this)"><i class="fas fa-list"></i></button>
+              </div>
+            </div>
+          </div>
+          <!-- Search results banner -->
+          <div id="searchBanner" class="d-none" style="background:var(--gold-light);border-radius:var(--radius-lg);padding:12px 20px;margin-bottom:var(--space-md);display:flex;align-items:center;justify-content:space-between">
+            <span id="searchBannerText"></span>
+            <button onclick="clearSearch()" style="color:var(--gold-dark);font-size:0.85rem;font-weight:600">✕ مسح</button>
+          </div>
+          <div class="grid-4" id="productsGrid" style="gap:var(--space-md)"></div>
+          <div class="pagination" id="pagination"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CUSTOMIZE TAB -->
+    <div id="tab-customize" class="d-none">
+      <div style="padding:var(--space-lg) 0">
+        <div class="section-title">
+          <h2>🎨 صمّمي منتجك الخاص</h2>
+          <div class="divider"></div>
+          <p class="subtitle">اختاري كل شيء بنفسك وسنصنع لك منتجاً حصرياً</p>
+        </div>
+        <div class="customizer-layout" id="customizerLayout"></div>
+      </div>
+    </div>
+
+    <!-- REVIEWS TAB -->
+    <div id="tab-reviews" class="d-none">
+      <div style="padding:var(--space-lg) 0">
+        <div class="flex-between mb-3">
+          <h2>آراء عملائنا ⭐</h2>
+          <button class="btn btn-primary" onclick="openReviewForm()"><i class="fas fa-star"></i> أضف تقييمك</button>
+        </div>
+        <div class="grid-3" id="storeReviews"></div>
+      </div>
+    </div>
+
+    <!-- TRACK ORDER TAB -->
+    <div id="tab-track" class="d-none">
+      <div style="max-width:500px;margin:var(--space-2xl) auto">
+        <div class="card">
+          <div class="card-body text-center">
+            <div style="font-size:4rem;margin-bottom:var(--space-lg)">📦</div>
+            <h2 class="mb-2">تتبع طلبك</h2>
+            <p class="mb-3">أدخل رقم الطلب أو رقم الهاتف لمتابعة حالة طلبك</p>
+            <div class="form-group">
+              <input type="text" class="form-control" id="trackInput" placeholder="رقم الطلب أو رقم الهاتف">
+            </div>
+            <button class="btn btn-primary w-full" onclick="trackOrder()"><i class="fas fa-search"></i> تتبع الطلب</button>
+            <div id="trackResult" class="mt-3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPLAINTS TAB -->
+    <div id="tab-complaints" class="d-none">
+      <div style="max-width:600px;margin:var(--space-2xl) auto">
+        <div class="card">
+          <div class="card-header"><h3>📣 تقديم شكوى أو اقتراح</h3></div>
+          <div class="card-body">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--space-md);margin-bottom:var(--space-xl)">
+              <a href="tel:01227208589" class="complaint-option"><div class="icon">📞</div><div>اتصال</div></a>
+              <a href="https://wa.me/201227208589" target="_blank" class="complaint-option"><div class="icon">💬</div><div>واتساب</div></a>
+              <span class="complaint-option" onclick="document.getElementById('complaintFormStore').style.display='block'"><div class="icon">📝</div><div>نموذج</div></span>
+            </div>
+            <form id="complaintFormStore" onsubmit="submitStoreComplaint(event)" style="display:none">
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">الاسم *</label><input class="form-control" id="sCompName" required></div>
+                <div class="form-group"><label class="form-label">الهاتف *</label><input class="form-control" id="sCompPhone" required></div>
+              </div>
+              <div class="form-group"><label class="form-label">رقم الطلب</label><input class="form-control" id="sCompOrder"></div>
+              <div class="form-group"><label class="form-label">نوع الشكوى *</label>
+                <select class="form-control" id="sCompCat" required>
+                  <option value="">اختر</option>
+                  <option value="product_quality">جودة المنتج</option>
+                  <option value="delivery">التوصيل</option>
+                  <option value="wrong_product">منتج خاطئ</option>
+                  <option value="damaged">منتج تالف</option>
+                  <option value="payment">الدفع</option>
+                  <option value="other">أخرى</option>
+                </select>
+              </div>
+              <div class="form-group"><label class="form-label">التفاصيل *</label><textarea class="form-control" id="sCompDetail" rows="4" required></textarea></div>
+              <button class="btn btn-primary w-full" type="submit">إرسال الشكوى</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Checkout Page (hidden by default, shown when checkout button clicked) -->
+<div id="checkoutPage" class="d-none" style="padding-top:72px">
+  <div class="container">
+    <div style="padding:var(--space-xl) 0">
+      <button class="btn btn-light btn-sm mb-3" onclick="backToShop()"><i class="fas fa-arrow-right"></i> العودة للمتجر</button>
+      <div class="checkout-layout" id="checkoutLayout"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Order Success Page -->
+<div id="orderSuccessPage" class="d-none" style="padding-top:72px">
+  <div class="container" style="padding:var(--space-4xl) 0;text-align:center">
+    <div style="font-size:6rem;margin-bottom:var(--space-lg)">🎉</div>
+    <h2 style="color:var(--success);margin-bottom:var(--space-md)">تم تأكيد طلبك!</h2>
+    <p style="font-size:1.1rem;margin-bottom:var(--space-sm)">شكراً لتسوقك من سوق روح 🌸</p>
+    <p style="color:var(--text-light);margin-bottom:var(--space-xl)">رقم طلبك: <strong id="successOrderId"></strong></p>
+    <p style="margin-bottom:var(--space-xl)">سنتواصل معك قريباً لتأكيد الطلب والشحن.</p>
+    <div style="display:flex;gap:var(--space-md);justify-content:center">
+      <button class="btn btn-primary" onclick="backToShop()"><i class="fas fa-shopping-bag"></i> متابعة التسوق</button>
+      <a href="https://wa.me/201227208589" class="btn btn-success"><i class="fab fa-whatsapp"></i> واتساب</a>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer" id="storeFooter">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--space-md)">
+      <div style="font-family:var(--font-heading);font-size:1.8rem;color:var(--gold)">ROOH</div>
+      <div style="display:flex;gap:var(--space-md);flex-wrap:wrap">
+        <a href="index.html" style="color:rgba(250,247,242,0.7);font-size:0.9rem">الموقع الرئيسي</a>
+        <a href="tel:01227208589" style="color:rgba(250,247,242,0.7);font-size:0.9rem">01227208589</a>
+        <a href="https://wa.me/201227208589" style="color:rgba(250,247,242,0.7);font-size:0.9rem">واتساب</a>
+      </div>
+    </div>
+    <div style="margin-top:var(--space-lg);padding-top:var(--space-lg);border-top:1px solid rgba(255,255,255,0.1);font-size:0.85rem;color:rgba(250,247,242,0.4);text-align:center">
+      © 2026 روح – Souq ROOH. جميع الحقوق محفوظة.
+    </div>
+  </div>
+</footer>
+
+<script src="js/db.js"></script>
+<script src="js/store.js"></script>
+</body>
+</html>
+
